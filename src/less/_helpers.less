@@ -1,0 +1,33 @@
+// colors
+
+@main-color: #ffffff;
+@secondary-color: #498077;
+@bg-main-color: #ffe8e0;
+@bg-secondary-color: #49274a;
+@font-color: @main-color;
+@btn-primary-color: #df4e4e;
+@price-tag-color: #027261;
+@carousel-btn-color: rgba(211, 88, 213, 0.59);
+
+// Gradients
+
+@main-gradient: linear-gradient(180deg, #3f004a 0%, rgba(97, 2, 114, 0) 21.21%),
+  #610272;
+
+// layout
+
+.flex(@justify-content: space-between, @align-items: center) {
+  display: flex;
+  justify-content: @justify-content;
+  align-items: @align-items;
+}
+
+// sizes
+
+.rem(@prop, @value) {
+  @{prop}: @value / 16rem;
+}
+
+.em(@prop, @value) {
+  @{prop}: @value / 16em;
+}
