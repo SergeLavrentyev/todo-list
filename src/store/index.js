@@ -6,7 +6,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     items: [],
-    itemsPerPage: 2,
+    itemsPerPage: 10,
     pageNumber: 1
   },
   getters: {
