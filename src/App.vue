@@ -43,11 +43,12 @@
             </div>
           </li>
         </ul>
+        {{ pageNumber }}
         <div class="pagination">
           <button
             v-for="(page, index) in pages"
             :key="index"
-            @click="getPage(page)"
+            @click="setPage(page)"
           >
             {{ page }}
           </button>
@@ -58,55 +59,56 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
-import vHeader from './components/v-header.vue';
-import { db } from './firebase';
+import { mapActions, mapGetters } from "vuex";
+import vHeader from "./components/v-header.vue";
+import { db } from "./firebase";
 export default {
+  name: "app",
   components: { vHeader },
   data() {
     return {
       task: null,
-      placeholder: 'Добавить задачу',
-      limit: 10,
-      pageNumber: 1,
+      placeholder: "Добавить задачу",
       from: null,
       to: null,
     };
   },
   created() {
-    this.$store.dispatch('setItems');
+    this.setItems();
   },
   computed: {
     ...mapGetters({
-      items: 'getItems',
+      items: "getItems",
+      pages: "getPages",
+      pageNumber: "getPageNumber",
+      itemsPerPage: "getItemsPerPage",
     }),
-    pages() {
-      return Math.ceil(this.items.length / 10);
-    },
     slicedPages() {
-      this.from = (this.pageNumber - 1) * this.limit;
-      this.to = this.from + this.limit;
+      this.from = (this.pageNumber - 1) * this.itemsPerPage;
+      this.to = this.from + this.itemsPerPage;
       return this.items.slice(this.from, this.to);
     },
   },
   methods: {
     ...mapActions({
-      updateTask: 'iupdateTask',
+      setItems: "setItems",
+      setPage: "setPage",
     }),
-    getPage(page) {
-      this.pageNumber = page;
-    },
+    // getPage(page) {
+    //   this.pageNumber = page;
+    // },
     async addTodo() {
       if (this.task) {
-        await db.collection('todos').add({ task: this.task, done: false });
+        await db.collection("todos").add({ task: this.task, done: false });
         this.task = null;
+        this.pageNumber = 1;
       }
     },
     async deleteTodo(id) {
-      await db.collection('todos').doc(id).delete();
+      await db.collection("todos").doc(id).delete();
     },
     async updateTodo(todo) {
-      await db.collection('todos').doc(todo.id).update(todo);
+      await db.collection("todos").doc(todo.id).update(todo);
     },
     async toggleTodo(id) {
       const todo = this.items.find((todo) => todo.id === id);
@@ -118,7 +120,7 @@ export default {
 </script>
 
 <style lang="less">
-@import './less/common';
+@import "./less/common";
 .todo {
   width: 100%;
   max-width: 50rem;
