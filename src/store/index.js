@@ -17,30 +17,32 @@ export default new Vuex.Store({
     getItemsPerPage: ({ itemsPerPage }) => itemsPerPage
   },
   mutations: {
-    setItems: state => {
-      let items = [];
-
-      db.collection("todos").onSnapshot(snapshot => {
-        items = [];
-        snapshot.forEach(doc => {
-          console.log(doc.data(doc.data().task));
-          items.push({
-            id: doc.id,
-            task: doc.data().task,
-            done: doc.data().done
-          });
-        });
-
-        state.items = items;
-      });
+    setItems: (state, payload) => {
+      state.items = payload;
     },
     setPage: (state, payload) => {
       state.pageNumber = payload;
+      console.log(state.pageNumber);
     }
   },
   actions: {
-    setItems: ({ commit }) => {
-      commit("setItems");
+    setItems: async ({ commit }) => {
+      let items = [];
+      try {
+        await db.collection("todos").onSnapshot(snapshot => {
+          items = [];
+          snapshot.forEach(doc => {
+            items.push({
+              id: doc.id,
+              task: doc.data().task,
+              done: doc.data().done
+            });
+            commit("setItems", items);
+          });
+        });
+      } catch (error) {
+        console.log(error);
+      }
     },
     setPage: ({ commit }, payload) => {
       commit("setPage", payload);
