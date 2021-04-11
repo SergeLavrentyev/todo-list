@@ -15,39 +15,31 @@
     </form>
     <p v-if="!items.length">Пока бездельничаем...</p>
     <ul class="todo__list">
-      <li
-        v-for="todo in slicedPages"
-        :key="todo.id"
-        class="todo__item"
-        :style="todo.done ? 'background-color: rgb(126, 235, 193)' : ''"
-      >
-        <p class="todo__title">{{ todo.task }}</p>
-        <div class="todo__buttons">
-          <button
-            class="button todo__button--remove"
-            @click="deleteTodo(todo.id)"
-          >
-            <i class="far fa-trash-alt"></i>
-          </button>
-          <button
-            class="button todo__button--edit"
-            @click="toggleTodo(todo.id)"
-          >
-            <i class="fas fa-check"></i>
-          </button>
-        </div>
-      </li>
+      <transition-group name="fade">
+        <li
+          v-for="todo in slicedPages"
+          :key="todo.id"
+          class="todo__item"
+          :style="todo.done ? 'background-color: rgb(126, 235, 193)' : ''"
+        >
+          <p class="todo__title">{{ todo.task }}</p>
+          <div class="todo__buttons">
+            <button
+              class="button todo__button--remove"
+              @click="deleteTodo(todo.id)"
+            >
+              <i class="far fa-trash-alt"></i>
+            </button>
+            <button
+              class="button todo__button--edit"
+              @click="toggleTodo(todo.id)"
+            >
+              <i class="fas fa-check"></i>
+            </button>
+          </div>
+        </li>
+      </transition-group>
     </ul>
-    {{ pageNumber }}
-    <div class="pagination">
-      <button
-        v-for="(page, index) in pages"
-        :key="index"
-        @click="setPage(page)"
-      >
-        {{ page }}
-      </button>
-    </div>
   </div>
 </template>
 

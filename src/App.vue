@@ -2,7 +2,8 @@
   <div id="app">
     <v-header></v-header>
     <div class="container">
-      <v-todo></v-todo>
+      <router-view></router-view>
+      <v-pagination></v-pagination>
     </div>
   </div>
 </template>
@@ -10,10 +11,11 @@
 <script>
 import vHeader from "@/components/v-header.vue";
 import vTodo from "@/components/v-todo.vue";
+import VPagination from './components/v-pagination.vue';
 
 export default {
   name: "app",
-  components: { vHeader, vTodo },
+  components: { vHeader, vTodo, VPagination },
 };
 </script>
 
