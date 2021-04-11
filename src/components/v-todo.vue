@@ -14,8 +14,10 @@
       </button>
     </form>
     <p v-if="!items.length">Пока бездельничаем...</p>
-    <ul class="todo__list" v-for="todo in slicedPages" :key="todo.id">
+    <ul class="todo__list">
       <li
+        v-for="todo in slicedPages"
+        :key="todo.id"
         class="todo__item"
         :style="todo.done ? 'background-color: rgb(126, 235, 193)' : ''"
       >
